@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>班級夢想商城</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #f43f5e;
+            --success: #10b981;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+        }
+
+        body { 
+            background: linear-gradient(135deg, #e0e7ff 0%, #f1f5f9 100%);
+            font-family: "PingFang TC", "Microsoft JhengHei", sans-serif; 
+            margin: 0;
+            padding: 20px;
+            display: flex; 
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .box { 
+            background: var(--card-bg); 
+            border-radius: 24px; 
+            padding: 24px; 
+            width: 100%; 
+            max-width: 500px; 
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 { text-align: center; color: var(--primary); font-size: 1.5rem; margin-bottom: 20px; }
+        
+        /* 區塊標題 */
+        .section-title { 
+            background: #f1f5f9; 
+            color: #64748b; 
+            padding: 6px 12px; 
+            border-radius: 8px; 
+            margin: 20px 0 10px 0; 
+            font-weight: bold; 
+            font-size: 0.9rem;
+            border-left: 4px solid var(--primary);
+        }
+
+        /* 禮物項目卡片化 */
+        .gift-item { 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 12px 16px; 
+            margin-bottom: 8px;
+            transition: all 0.2s;
+        }
+        .gift-item:hover { border-color: var(--primary); background: #fdfdff; }
+        .gift-item.active { border-color: var(--primary); background: #f5f3ff; }
+        .gift-item.out { opacity: 0.5; background: #f1f5f9; cursor: not-allowed; }
+
+        .gift-info { display: flex; flex-direction: column; }
+        .gift-name { font-weight: 600; color: var(--text-main); }
+        .gift-price { font-size: 0.85rem; color: var(--secondary); font-weight: bold; }
+
+        /* 點數顯示區 */
+        .status-card {
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            border-radius: 16px;
+            padding: 20px;
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+        .point-display { font-size: 2rem; font-weight: 800; margin: 5px 0; }
+        .point-label { font-size: 0.9rem; opacity: 0.9; }
+
+        /* 表單元素 */
+        label { display: block; margin-bottom: 6px; font-weight: 600; color: #475569; font-size: 0.9rem; }
+        select, input[type="password"], input[type="number"] { 
+            width: 100%; padding: 12px; font-size: 16px; border-radius: 12px; 
+            border: 1px solid #cbd5e1; box-sizing: border-box; margin-bottom: 16px;
+            transition: border 0.3s;
+        }
+        select:focus, input:focus { outline: none; border-color: var(--primary); ring: 2px solid #c7d2fe; }
+
+        /* 按鈕設計 */
+        .btn { 
+            background: var(--primary); color: white; padding: 14px; width: 100%; border: none; 
+            border-radius: 12px; font-size: 1.1rem; font-weight: bold; cursor: pointer; 
+            transition: transform 0.1s, opacity 0.2s; margin-top: 10px;
+        }
+        .btn:active { transform: scale(0.98); }
+        .btn:disabled { background: #cbd5e1; cursor: not-allowed; }
+        .btn-secondary { background: #94a3b8; margin-top: 8px; }
+        .btn-buy { background: var(--success); box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3); }
+
+        /* 標籤 */
+        .stock-tag { font-size: 11px; padding: 2px 8px; border-radius: 20px; background: #f1f5f9; color: #64748b; margin-top: 4px; display: inline-block; }
+        .stock-low { background: #fee2e2; color: #ef4444; font-weight: bold; }
+
+        /* 管理者專區 */
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px; background: white; border-radius: 8px; overflow: hidden; }
+        th { background: #f1f5f9; padding: 12px 8px; text-align: left; color: #475569; }
+        td { border-bottom: 1px solid #f1f5f9; padding: 12px 8px; }
+        .admin-link { color: #94a3b8; font-size: 12px; text-align: center; margin-top: 30px; cursor: pointer; display: block; text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <div id="page-login">
+        <h2>✨ 夢想兌換商店</h2>
+        <label>選你的名字</label>
+        <select id="user">
+            <option value="">請點擊選擇名字...</option>
+            <option>黃柏翔</option><option>黃詠其</option><option>王宸祐</option><option>吳奕磊</option>
+            <option>梁軒綸</option><option>張冠棋</option><option>候聖威</option><option>陳建禾</option>
+            <option>陳楷茗</option><option>黃秉昱</option><option>洪呈塏</option><option>林韡倫</option>
+            <option>黃彥龍</option><option>盧睿文</option><option>林侑威</option><option>張惠雯</option>
+            <option>鄭仰玹</option><option>冼芸熙</option><option>侯明晨</option><option>劉孟桐</option>
+            <option>王紫縈</option><option>邱庭瑜</option><option>朱芃媗</option><option>劉語晴</option>
+            <option>吳幸嬨</option><option>徐郁涵</option><option>魏瑜芯</option><option>蔡汮妍</option>
+        </select>
+        <label>輸入個人密碼</label>
+        <input type="password" id="pass" placeholder="請輸入 4 位密碼" inputmode="numeric">
+        <button class="btn" onclick="doLogin()">登入商店</button>
+    </div>
+
+    <div id="page-shop" style="display:none;">
+        <h3 id="who" style="text-align:center; color:#475569;">你好</h3>
+        
+        <div class="status-card">
+            <div class="point-label">目前可用餘額</div>
+            <div class="point-display" id="resP">0</div>
+            <div class="point-label">Points</div>
+        </div>
+
+        <div style="background: #fff; padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 20px;">
+            <label style="margin:0">💎 請輸入老師給你的點數：</label>
+            <input type="number" id="nowP" value="0" oninput="calc()" style="margin: 10px 0 0 0; border-color: var(--primary); font-weight: bold; color: var(--primary);">
+        </div>
+
+        <div id="gifts-container"></div>
+
+        <div style="margin-top: 25px;">
+            <button id="buyBtn" class="btn btn-buy" onclick="doBuy()" disabled>請先選擇禮物</button>
+            <button class="btn btn-secondary" onclick="location.reload()">登出 / 換人</button>
+        </div>
+    </div>
+
+    <div id="page-admin" style="display:none;">
+        <h3 style="display: flex; align-items: center; gap: 8px;">📊 管理員儀表板</h3>
+        <div style="background: #f8fafc; padding: 15px; border-radius: 12px; margin-bottom: 20px;">
+            <b style="font-size: 0.9rem; color: #64748b;">即時庫存狀態：</b>
+            <div id="stockStatus" style="font-size: 13px; margin-top: 10px; line-height: 1.8;"></div>
+        </div>
+        <b style="font-size: 0.9rem; color: #64748b;">最近兌換紀錄：</b>
+        <div id="logTable" style="overflow-x: auto;"></div>
+        <button class="btn" onclick="location.reload()">返回商店</button>
+    </div>
+
+    <span class="admin-link" onclick="goAdmin()">老師管理入口</span>
+</div>
+
+<script>
+    // 核心邏輯保持一致，僅針對 UI 反饋進行微調
+    var defaultStock = {
+        "DIY手做燈": 1, "樂高/積木系列": 1, "麥塊小人/滑板": 1, "點心麵粉彩筆": 1,
+        "合作社10元卷": 30,
+        "榮譽卡1點": 999, "造型貼紙": 999, "食物盲袋": 999, "實用文具": 999,
+        "小包零食": 999, "鋁箔包飲料": 999, "驚喜盲盒": 999
+    };
+
+    var giftData = [
+        { c: "📁 文具與小物", items: [
+            {n:"榮譽卡1點", p:1}, {n:"合作社10元卷", p:10}, {n:"造型貼紙", p:20}, {n:"食物盲袋", p:20}, {n:"實用文具", p:30}
+        ]},
+        { c: "🍿 零食與紓壓", items: [
+            {n:"小包零食", p:60}, {n:"鋁箔包飲料", p:80}, {n:"驚喜盲盒", p:100}
+        ]},
+        { c: "🎁 夢幻大禮物", items: [
+            {n:"DIY手做燈", p:120}, {n:"樂高/積木系列", p:120}, {n:"麥塊小人/滑板", p:120}, {n:"點心麵粉彩筆", p:120}
+        ]}
+    ];
+
+    function getDB() {
+        return JSON.parse(localStorage.getItem('SHOP_V2')) || { uP: {}, logs: [], stock: defaultStock };
+    }
+
+    function renderShop() {
+        var db = getDB();
+        var gHtml = "";
+        for(var i=0; i<giftData.length; i++) {
+            gHtml += '<div class="section-title">' + giftData[i].c + '</div>';
+            for(var j=0; j<giftData[i].items.length; j++) {
+                var item = giftData[i].items[j];
+                var stockCount = db.stock[item.n];
+                var isOut = stockCount <= 0;
+                var stockClass = stockCount < 5 ? "stock-tag stock-low" : "stock-tag";
+                var limitInfo = (item.n === "合作社10元卷" || i === 2) ? '<span class="'+stockClass+'">剩餘 '+stockCount+' 件</span>' : '';
+
+                gHtml += `
+                <div class="gift-item ${isOut ? 'out' : ''}" id="item-${i}-${j}">
+                    <div class="gift-info">
+                        <span class="gift-name">${item.n}</span>
+                        <span class="gift-price">💎 ${item.p} 點</span>
+                        ${limitInfo}
+                    </div>
+                    <input type="checkbox" class="chk" data-n="${item.n}" data-p="${item.p}" 
+                           onchange="handleCheck(this, 'item-${i}-${j}')" 
+                           ${isOut ? 'disabled' : ''} 
+                           style="width:24px; height:24px; cursor:pointer;">
+                </div>`;
+            }
+        }
+        document.getElementById('gifts-container').innerHTML = gHtml;
+    }
+
+    function handleCheck(chk, id) {
+        var el = document.getElementById(id);
+        if(chk.checked) el.classList.add('active');
+        else el.classList.remove('active');
+        calc();
+    }
+
+    function doLogin() {
+        var u = document.getElementById('user').value;
+        var p = document.getElementById('pass').value;
+        if(!u || !p) { alert("請選擇名字並輸入密碼！"); return; }
+        var db = getDB();
+        if(!db.uP[u]) db.uP[u] = p;
+        if(db.uP[u] === p) {
+            document.getElementById('who').innerText = "⭐ " + u + " 正在選購";
+            document.getElementById('page-login').style.display = "none";
+            document.getElementById('page-shop').style.display = "block";
+            renderShop();
+        } else { alert("密碼錯誤！請重新輸入"); }
+        localStorage.setItem('SHOP_V2', JSON.stringify(db));
+    }
+
+    function calc() {
+        var total = parseInt(document.getElementById('nowP').value) || 0;
+        var cost = 0;
+        var chks = document.getElementsByClassName('chk');
+        for(var i=0; i<chks.length; i++) if(chks[i].checked) cost += parseInt(chks[i].getAttribute('data-p'));
+        var remain = total - cost;
+        
+        var resEl = document.getElementById('resP');
+        resEl.innerText = remain;
+        resEl.style.color = remain < 0 ? "#ff4d4d" : "white";
+
+        var btn = document.getElementById('buyBtn');
+        if (total <= 0) {
+            btn.disabled = true;
+            btn.innerText = "請先輸入您的點數";
+        } else if (remain < 0) {
+            btn.disabled = true;
+            btn.innerText = "點數餘額不足";
+        } else if (cost === 0) {
+            btn.disabled = true;
+            btn.innerText = "請勾選想換的禮物";
+        } else {
+            btn.disabled = false;
+            btn.innerText = "確認兌換 (花費 " + cost + " 點)";
+        }
+    }
+
+    function doBuy() {
+        var u = document.getElementById('user').value;
+        var db = getDB();
+        var items = [];
+        var chks = document.getElementsByClassName('chk');
+        for(var i=0; i<chks.length; i++){
+            if(chks[i].checked) {
+                var name = chks[i].getAttribute('data-n');
+                if(db.stock[name] > 0) {
+                    items.push(name);
+                    db.stock[name] -= 1;
+                } else {
+                    alert(name + " 剛被換完了，請取消勾選！");
+                    return;
+                }
+            }
+        }
+        
+        db.logs.push({ 
+            t: new Date().toLocaleString('zh-TW', {hour12:false}), 
+            n: u, 
+            it: items.join(", "), 
+            re: document.getElementById('resP').innerText 
+        });
+        localStorage.setItem('SHOP_V2', JSON.stringify(db));
+        alert("🎉 兌換成功！記得找老師領取禮物喔！");
+        location.reload();
+    }
+
+    function goAdmin() {
+        var pass = prompt("請輸入老師管理密碼：");
+        if(pass === "teacher123") {
+            document.getElementById('page-login').style.display = "none";
+            document.getElementById('page-shop').style.display = "none";
+            document.getElementById('page-admin').style.display = "block";
+            var db = getDB();
+            var sHtml = "";
+            for(var key in db.stock) {
+                var count = db.stock[key];
+                if(count < 500) {
+                    var color = count < 5 ? 'red' : '#475569';
+                    sHtml += `<span style="display:inline-block; margin-right:10px; color:${color}">${key}: <b>${count}</b></span>`;
+                }
+            }
+            document.getElementById('stockStatus').innerHTML = sHtml || "目前所有品項庫存充足";
+            
+            var h = "<table><tr><th>時間</th><th>姓名</th><th>物品</th><th>餘額</th></tr>";
+            for(var i=db.logs.length-1; i>=0; i--) {
+                h += `<tr><td>${db.logs[i].t}</td><td>${db.logs[i].n}</td><td>${db.logs[i].it}</td><td>${db.logs[i].re}</td></tr>`;
+            }
+            document.getElementById('logTable').innerHTML = h + "</table>";
+        } else if(pass !== null) {
+            alert("密碼錯誤！");
+        }
+    }
+</script>
+</body>
+</html>
