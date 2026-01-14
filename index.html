@@ -17,93 +17,61 @@
         body { 
             background: linear-gradient(135deg, #e0e7ff 0%, #f1f5f9 100%);
             font-family: "PingFang TC", "Microsoft JhengHei", sans-serif; 
-            margin: 0;
-            padding: 20px;
-            display: flex; 
-            justify-content: center;
-            min-height: 100vh;
+            margin: 0; padding: 20px; display: flex; justify-content: center; min-height: 100vh;
         }
 
         .box { 
-            background: var(--card-bg); 
-            border-radius: 24px; 
-            padding: 24px; 
-            width: 100%; 
-            max-width: 500px; 
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            background: var(--card-bg); border-radius: 24px; padding: 24px; 
+            width: 100%; max-width: 500px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
         }
 
-        h2 { text-align: center; color: var(--primary); font-size: 1.5rem; margin-bottom: 20px; }
+        h2 { text-align: center; color: var(--primary); margin-bottom: 20px; }
         
+        .status-card {
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            border-radius: 16px; padding: 20px; color: white; text-align: center; margin-bottom: 20px;
+        }
+        .point-display { font-size: 2.2rem; font-weight: 800; }
+
         .section-title { 
-            background: #f1f5f9; 
-            color: #64748b; 
-            padding: 6px 12px; 
-            border-radius: 8px; 
-            margin: 20px 0 10px 0; 
-            font-weight: bold; 
-            font-size: 0.9rem;
-            border-left: 4px solid var(--primary);
+            background: #f1f5f9; color: #64748b; padding: 8px 12px; border-radius: 8px; 
+            margin: 20px 0 10px 0; font-weight: bold; border-left: 4px solid var(--primary);
         }
 
         .gift-item { 
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between; 
-            background: #fff;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 12px 16px; 
-            margin-bottom: 8px;
+            display: flex; align-items: center; justify-content: space-between; 
+            background: #fff; border: 1px solid #e2e8f0; border-radius: 12px;
+            padding: 12px 16px; margin-bottom: 8px; transition: 0.2s;
         }
         .gift-item.active { border-color: var(--primary); background: #f5f3ff; }
-        .gift-item.out { opacity: 0.5; background: #f1f5f9; border-style: dashed; }
+        .gift-item.out { opacity: 0.5; background: #f1f5f9; }
 
-        .gift-info { display: flex; flex-direction: column; flex-grow: 1; }
-        .gift-name { font-weight: 600; color: var(--text-main); }
-        .gift-price { font-size: 0.85rem; color: var(--secondary); font-weight: bold; }
+        .gift-info { flex-grow: 1; }
+        .gift-name { font-weight: 600; display: block; }
+        .gift-price { color: var(--secondary); font-weight: bold; font-size: 0.9rem; }
+        .stock-tag { font-size: 11px; color: #94a3b8; }
 
-        /* 數量輸入框樣式 */
-        .num-input {
-            width: 60px;
-            padding: 8px;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
-            text-align: center;
-            font-weight: bold;
-            color: var(--primary);
+        /* 數量控制器 */
+        .qty-control { display: flex; align-items: center; gap: 8px; }
+        .qty-btn { 
+            width: 30px; height: 30px; border-radius: 8px; border: 1px solid #cbd5e1;
+            background: white; cursor: pointer; font-weight: bold; font-size: 18px;
         }
-        .num-input:focus { border-color: var(--primary); outline: none; }
-
-        .status-card {
-            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-            border-radius: 16px;
-            padding: 20px;
-            color: white;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .point-display { font-size: 2.2rem; font-weight: 800; margin: 5px 0; }
-        .point-label { font-size: 0.9rem; opacity: 0.9; }
-
-        label { display: block; margin-bottom: 6px; font-weight: 600; color: #475569; font-size: 0.9rem; }
-        select, input[type="password"], input[type="number"] { 
-            width: 100%; padding: 12px; font-size: 16px; border-radius: 12px; 
-            border: 1px solid #cbd5e1; box-sizing: border-box; margin-bottom: 16px;
+        .qty-btn:active { background: #f1f5f9; }
+        .qty-input { 
+            width: 40px; text-align: center; border: none; font-weight: bold; 
+            font-size: 16px; background: transparent;
         }
 
         .btn { 
             background: var(--primary); color: white; padding: 14px; width: 100%; border: none; 
-            border-radius: 12px; font-size: 1.1rem; font-weight: bold; cursor: pointer; 
-            transition: all 0.2s; margin-top: 10px;
+            border-radius: 12px; font-size: 1.1rem; font-weight: bold; cursor: pointer; margin-top: 10px;
         }
         .btn:disabled { background: #cbd5e1; cursor: not-allowed; }
-        .btn-buy { background: var(--success); }
+        .btn-buy { background: var(--success); box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3); }
 
-        .stock-tag { font-size: 11px; padding: 2px 8px; border-radius: 20px; background: #f1f5f9; color: #64748b; margin-top: 4px; display: inline-block; width: fit-content; }
-        
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px; background: white; border-radius: 8px; }
-        th, td { border-bottom: 1px solid #f1f5f9; padding: 12px 8px; text-align: left; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px; }
+        th, td { border-bottom: 1px solid #f1f5f9; padding: 10px; text-align: left; }
         .admin-link { color: #94a3b8; font-size: 12px; text-align: center; margin-top: 30px; cursor: pointer; display: block; }
     </style>
 </head>
@@ -112,8 +80,8 @@
 <div class="box">
     <div id="page-login">
         <h2>✨ 點數兌換商店</h2>
-        <label>選你的名字</label>
-        <select id="user">
+        <label style="font-size:0.9rem; color:#64748b;">選你的名字</label>
+        <select id="user" style="width:100%; padding:12px; border-radius:12px; margin-bottom:15px; border:1px solid #cbd5e1;">
             <option value="">請點擊選擇名字...</option>
             <option>黃柏翔</option><option>黃詠其</option><option>王宸祐</option><option>吳奕磊</option>
             <option>梁軒綸</option><option>張冠棋</option><option>候聖威</option><option>陳建禾</option>
@@ -123,8 +91,8 @@
             <option>王紫縈</option><option>邱庭瑜</option><option>朱芃媗</option><option>劉語晴</option>
             <option>吳幸嬨</option><option>徐郁涵</option><option>魏瑜芯</option><option>蔡汮妍</option>
         </select>
-        <label>輸入個人密碼</label>
-        <input type="password" id="pass" placeholder="請輸入 4 位密碼" inputmode="numeric">
+        <label style="font-size:0.9rem; color:#64748b;">輸入個人密碼</label>
+        <input type="password" id="pass" placeholder="第一次登入即設定密碼" style="width:100%; padding:12px; border-radius:12px; margin-bottom:15px; border:1px solid #cbd5e1;" inputmode="numeric">
         <button class="btn" onclick="doLogin()">進入商店</button>
     </div>
 
@@ -132,13 +100,13 @@
         <h3 id="who" style="text-align:center; color:#475569;">你好</h3>
         
         <div class="status-card">
-            <div class="point-label">預計剩餘點數</div>
+            <div style="font-size:0.9rem; opacity:0.9;">預計剩餘點數</div>
             <div class="point-display" id="resP">0</div>
         </div>
 
         <div style="background: #fff; padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 20px;">
-            <label>💎 目前點數：</label>
-            <input type="number" id="nowP" value="0" oninput="calc()">
+            <label>💎 老師給你的點數：</label>
+            <input type="number" id="nowP" value="0" oninput="calc()" style="width:100%; padding:10px; border:2px solid #6366f1; border-radius:8px; font-size:18px; font-weight:bold;">
         </div>
 
         <div id="gifts-container"></div>
@@ -149,9 +117,19 @@
         </div>
     </div>
 
+    <div id="page-admin" style="display:none;">
+        <h3>📊 管理員後台</h3>
+        <div id="stockStatus" style="font-size: 13px; margin-bottom: 20px;"></div>
+        <b>兌換紀錄：</b>
+        <div id="logTable" style="overflow-x: auto;"></div>
+        <button class="btn" onclick="location.reload()">回首頁</button>
     </div>
 
+    <span class="admin-link" onclick="goAdmin()">老師管理入口</span>
+</div>
+
 <script>
+    // 初始庫存與資料
     var defaultStock = {
         "麥塊人物": 3, "寶可夢桌遊": 1, "樂高": 3, "拼圖": 3, "DIY手做燈": 1, 
         "點心麵粉彩筆": 1, "合作社10元卷": 30, "榮譽卡1點": 999, "造型貼紙": 999, 
@@ -164,7 +142,9 @@
         { c: "三、特殊禮物 (限量)", items: [{n:"麥塊人物", p:120}, {n:"寶可夢桌遊", p:150}, {n:"樂高", p:120}, {n:"拼圖", p:120}, {n:"DIY手做燈", p:120}, {n:"點心麵粉彩筆", p:120}]}
     ];
 
-    function getDB() { return JSON.parse(localStorage.getItem('SHOP_V2')) || { uP: {}, logs: [], stock: defaultStock }; }
+    function getDB() {
+        return JSON.parse(localStorage.getItem('SHOP_V3')) || { uP: {}, logs: [], stock: defaultStock };
+    }
 
     function renderShop() {
         var db = getDB();
@@ -175,100 +155,111 @@
                 var stock = db.stock[item.n] || 0;
                 var isOut = stock <= 0;
                 gHtml += `
-                <div class="gift-item ${isOut ? 'out' : ''}">
+                <div class="gift-item ${isOut ? 'out' : ''}" id="box-${gIdx}-${iIdx}">
                     <div class="gift-info">
-                        <span class="gift-name">${item.n} ${isOut ? '(換完)' : ''}</span>
+                        <span class="gift-name">${item.n}</span>
                         <span class="gift-price">💎 ${item.p} 點</span>
-                        <span class="stock-tag">剩餘 ${stock}</span>
+                        <span class="stock-tag">庫存: ${stock}</span>
                     </div>
-                    <input type="number" class="num-input" data-n="${item.n}" data-p="${item.p}" 
-                           data-max="${stock}" value="0" min="0" max="${stock}" 
-                           oninput="calc()" ${isOut ? 'disabled' : ''}>
+                    <div class="qty-control">
+                        <button class="qty-btn" onclick="changeQty('${gIdx}-${iIdx}', -1)" ${isOut?'disabled':''}>-</button>
+                        <input type="number" class="qty-input" id="qty-${gIdx}-${iIdx}" 
+                               data-n="${item.n}" data-p="${item.p}" data-max="${stock}" 
+                               value="0" readonly>
+                        <button class="qty-btn" onclick="changeQty('${gIdx}-${iIdx}', 1)" ${isOut?'disabled':''}>+</button>
+                    </div>
                 </div>`;
             });
         });
         document.getElementById('gifts-container').innerHTML = gHtml;
     }
 
+    function changeQty(id, delta) {
+        var input = document.getElementById('qty-' + id);
+        var box = document.getElementById('box-' + id);
+        var current = parseInt(input.value) || 0;
+        var max = parseInt(input.dataset.max);
+        var next = current + delta;
+        
+        if(next >= 0 && next <= max) {
+            input.value = next;
+            if(next > 0) box.classList.add('active');
+            else box.classList.remove('active');
+            calc();
+        }
+    }
+
     function doLogin() {
         var u = document.getElementById('user').value;
         var p = document.getElementById('pass').value;
-        if(!u || !p) { alert("請填寫名字與密碼！"); return; }
+        if(!u || !p) return alert("請填寫名字與密碼！");
         var db = getDB();
         if(!db.uP[u]) db.uP[u] = p;
         if(db.uP[u] === p) {
-            document.getElementById('who').innerText = "⭐ " + u + " 的購物車";
+            document.getElementById('who').innerText = "⭐ " + u + " 的購物時光";
             document.getElementById('page-login').style.display = "none";
             document.getElementById('page-shop').style.display = "block";
             renderShop();
-        } else { alert("密碼錯誤！"); }
-        localStorage.setItem('SHOP_V2', JSON.stringify(db));
+            localStorage.setItem('SHOP_V3', JSON.stringify(db));
+        } else alert("密碼錯誤！");
     }
 
     function calc() {
         var total = parseInt(document.getElementById('nowP').value) || 0;
         var cost = 0;
-        var inputs = document.getElementsByClassName('num-input');
-        
+        var inputs = document.getElementsByClassName('qty-input');
         for(var input of inputs) {
-            var val = parseInt(input.value) || 0;
-            var max = parseInt(input.getAttribute('data-max'));
-            
-            // 防呆：不能超過庫存
-            if(val > max) { input.value = max; val = max; }
-            if(val < 0) { input.value = 0; val = 0; }
-            
-            cost += val * parseInt(input.getAttribute('data-p'));
-            
-            // 高亮顯示有選擇數量的項目
-            if(val > 0) input.parentElement.classList.add('active');
-            else input.parentElement.classList.remove('active');
+            cost += (parseInt(input.value) || 0) * parseInt(input.dataset.p);
         }
-
         var remain = total - cost;
         var resEl = document.getElementById('resP');
         resEl.innerText = remain;
         resEl.style.color = remain < 0 ? "#ff4d4f" : "white";
 
         var btn = document.getElementById('buyBtn');
-        if (total === 0) { btn.disabled = true; btn.innerText = "請輸入點數"; }
-        else if (remain < 0) { btn.disabled = true; btn.innerText = "點數不夠喔！"; }
-        else if (cost === 0) { btn.disabled = true; btn.innerText = "請選擇數量"; }
-        else { btn.disabled = false; btn.innerText = `確定兌換 (共花費 ${cost} 點)`; }
+        btn.disabled = (total <= 0 || cost <= 0 || remain < 0);
+        if(remain < 0) btn.innerText = "點數不夠喔！";
+        else if(cost > 0) btn.innerText = `確定兌換 (花費 ${cost} 點)`;
+        else btn.innerText = "請選擇數量";
     }
 
     function doBuy() {
+        if(!confirm("確定要兌換嗎？送出後無法修改喔！")) return;
         var u = document.getElementById('user').value;
         var db = getDB();
         var itemsLog = [];
-        var inputs = document.getElementsByClassName('num-input');
+        var inputs = document.getElementsByClassName('qty-input');
 
         for(var input of inputs) {
             var count = parseInt(input.value) || 0;
             if(count > 0) {
-                var name = input.getAttribute('data-n');
-                if(db.stock[name] >= count) {
-                    db.stock[name] -= count;
-                    itemsLog.push(`${name}x${count}`);
-                } else {
-                    alert(`${name} 庫存不足！`);
-                    return;
-                }
+                var name = input.dataset.n;
+                db.stock[name] -= count;
+                itemsLog.push(`${name}x${count}`);
             }
         }
         
-        db.logs.push({ 
-            t: new Date().toLocaleString(), 
-            n: u, 
-            it: itemsLog.join(", "), 
-            re: document.getElementById('resP').innerText 
-        });
-        localStorage.setItem('SHOP_V2', JSON.stringify(db));
-        alert("兌換成功！");
+        db.logs.push({ t: new Date().toLocaleString(), n: u, it: itemsLog.join(", "), re: document.getElementById('resP').innerText });
+        localStorage.setItem('SHOP_V3', JSON.stringify(db));
+        alert("恭喜兌換成功！請給老師確認");
         location.reload();
     }
-    
-    // 老師管理頁面邏輯 (goAdmin) 建議沿用原本的即可
+
+    function goAdmin() {
+        var pass = prompt("管理密碼：");
+        if(pass === "teacher123") {
+            document.getElementById('page-login').style.display = "none";
+            document.getElementById('page-shop').style.display = "none";
+            document.getElementById('page-admin').style.display = "block";
+            var db = getDB();
+            var sHtml = "";
+            for(var key in db.stock) sHtml += `<span style="padding:4px 8px; background:#eee; border-radius:4px; margin:2px; display:inline-block">${key}: <b>${db.stock[key]}</b></span> `;
+            document.getElementById('stockStatus').innerHTML = sHtml;
+            var h = "<table><tr><th>姓名</th><th>換了什麼</th><th>餘額</th></tr>";
+            for(var i=db.logs.length-1; i>=0; i--) h += `<tr><td>${db.logs[i].n}</td><td>${db.logs[i].it}</td><td>${db.logs[i].re}</td></tr>`;
+            document.getElementById('logTable').innerHTML = h + "</table>";
+        }
+    }
 </script>
 </body>
 </html>
